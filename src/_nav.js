@@ -5,8 +5,8 @@ export default {
         url: '/dashboard',
         icon: 'icon-speedometer',
         badge: {
-          variant: 'info',
-          text: 'NEW',
+          variant: 'danger',
+          text: 'Hot',
         },
       },
       {

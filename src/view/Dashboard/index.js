@@ -9,7 +9,7 @@ class Dashboard extends React.Component {
     }
     render = () => {
         return (
-            <div>Đây là Dashboard</div>
+            <div className="alert alert-danger">Xin chào các bạn đã đến với thế giới của những đứa khó hiểu</div>
         )
     }
 }

@@ -4,7 +4,9 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
-import { Button } from 'reactstrap'
+import { Button, FormGroup, Label, Input, Col } from 'reactstrap'
+import { connect } from 'react-redux'
+import RA from '../../redux/actions';
 class MailEditor extends Component {
     constructor(props) {
         super(props)
@@ -26,26 +28,58 @@ class MailEditor extends Component {
         })
     }
 
+    onSendEmail = () => {
+        console.log(this.props)
+        this.props.dispatch(RA.checkAuth({ username: "username" }))
+    }
+
     render() {
         return (
             <div style={{ margin: 5 }}>
                 <h1 className="text-center">Tạo chiến dịch gửi mail</h1>
-                <Editor
-                    editorStyle={{ border: "1px solid #F1F1F1", height: 400, padding: 10 }}
-                    wrapperStyle={{ border: "1px solid #F1F1F1" }}
-                    editorState={this.state.editorState}
-                    onChange={this.onChange}
-                    onContentStateChange={this.onContentStateChange}
-                    onEditorStateChange={this.onEditorStateChange} />
+                <FormGroup row>
+                    <Label children="From" sm={2} />
+                    <Col sm={10}>
+                        <Input />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label children="To" sm={2} />
+                    <Col sm={10}>
+                        <Input />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label children="Content" sm={2} />
+                    <Col sm={10}>
+                        <Editor
+                            editorStyle={{ border: "1px solid #F1F1F1", height: 400, padding: 10 }}
+                            wrapperStyle={{ border: "1px solid #F1F1F1" }}
+                            editorState={this.state.editorState}
+                            onChange={this.onChange}
+                            onContentStateChange={this.onContentStateChange}
+                            onEditorStateChange={this.onEditorStateChange} />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label children="To" sm={2} />
+                    <Col sm={10}>
+                        <Button children="Send email" onClick={this.onSendEmail} />
+                    </Col>
+                </FormGroup>
                 <textarea
                     disabled
                     value={draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))}
                     style={{ width: "100%" }}
                 />
-                <Button children="Send email" />
             </div>
         );
     }
 }
 
-export default MailEditor;
+const mapStateToProps = (state) => {
+    let auth = state.auth || {}
+    return { auth }
+}
+
+export default connect(mapStateToProps)(MailEditor)
