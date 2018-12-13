@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
-
+import {connect} from 'react-redux'
 import {
   AppBreadcrumb,
   AppFooter,
@@ -17,6 +17,7 @@ import {
 import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
+import RA from '../../redux/actions'
 
 // const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -28,15 +29,20 @@ class DefaultLayout extends Component {
 
   signOut = (e) => {
     e.preventDefault()
-    this.props.history.push('/login')
+    // this.props.history.push('/login')
+    this.props.dispatch(RA.signOut())
   }
 
-  render() {
+render() {
+    let userInfo = this.props.userInfo
+    if(!userInfo || Object.keys(userInfo).length === 0){
+      return <Redirect to="/login"/>
+    }
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense  fallback={this.loading}>
-            <DefaultHeader onLogout={this.signOut}/>
+          <Suspense fallback={this.loading}>
+            <DefaultHeader onLogout={this.signOut} />
           </Suspense>
         </AppHeader>
         <div className="app-body">
@@ -44,13 +50,13 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav navConfig={navigation} {...this.props} />
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes}/>
+            <AppBreadcrumb appRoutes={routes} />
             <Container fluid>
               <Suspense fallback={this.loading}>
                 <Switch>
@@ -87,4 +93,9 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+const mapStateToProps = state => {
+  let { userInfo } = state.auth
+  return { userInfo }
+}
+
+export default connect(mapStateToProps)(DefaultLayout)

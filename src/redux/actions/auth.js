@@ -1,23 +1,41 @@
 import RT from "../types";
 
-
-function checkAuth(payload) {
+const checkAuth = (payload, onCallback) => {
     return {
         type: RT.CHECK_AUTH,
-        payload: payload
+        payload: payload,
+        onCallback
     };
 }
 
-function setUserSuccess(user) {
+const setUserSuccess = (user, onCallback) => {
     return {
         type: RT.CHECK_AUTH_SUCCESS,
-        payload: user
+        payload: user,
+        onCallback
     };
+}
+
+const setUserFail = (error, onCallback) => {
+    return {
+        type: RT.CHECK_AUTH_FAIL,
+        payload: error,
+        onCallback
+    }
+}
+
+const signOut = (onCallback) => {
+    return {
+        type: RT.SIGN_OUT,
+        onCallback
+    }
 }
 
 const AUTH_ACTIONS = {
     checkAuth,
-    setUserSuccess
+    setUserSuccess,
+    setUserFail,
+    signOut
 }
 
 export default AUTH_ACTIONS

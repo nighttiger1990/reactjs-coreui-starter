@@ -19,9 +19,38 @@ export default {
         class: ''             // optional class names space delimited list for title item ex: "text-center"
       },
       {
-        name: 'Gửi mail',
-        url: '/sendmail',
+        name: 'Chiến dịch gửi mail',
+        url: '/mailcampaign',
+        icon: 'icon-flag',
+      },
+      {
+        name: 'Mail Template',
+        url: '/mailtemplate',
         icon: 'icon-paper-plane',
+      },
+      {
+        name: 'Mail Sender',
+        url: '/mailsender',
+        icon: 'icon-paper-plane',
+      },
+      {
+        title: true,
+        name: 'Contact and Group',
+        wrapper: {            // optional wrapper object
+          element: '',        // required valid HTML5 element tag
+          attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
+        },
+        class: ''             // optional class names space delimited list for title item ex: "text-center"
+      },
+      {
+        name: 'Contact List',
+        url: '/contactlist',
+        icon: 'icon-user',
+      },
+      {
+        name: 'Contact Group List',
+        url: '/contactgrouplist',
+        icon: 'icon-people',
       },
     //   {
     //     name: 'Typography',
