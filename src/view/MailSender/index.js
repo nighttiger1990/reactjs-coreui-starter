@@ -6,7 +6,7 @@ import { stateToHTML } from 'draft-js-export-html'
 import { Button, FormGroup, Label, Input, Col } from 'reactstrap'
 import { connect } from 'react-redux'
 import RA from '../../redux/actions';
-import MailEditor2 from '../../components/MailEditor2'
+// import MailEditor2 from '../../components/MailEditor2'
 import Select from 'react-select'
 // import RA from '../../redux/actions';
 

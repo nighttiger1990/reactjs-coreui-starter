@@ -47,13 +47,67 @@ const cContactFail = (error, onCallback) => {
         onCallback
     }
 }
+const uContact = (body, onCallback) => {
+    return {
+        type: RT.U_CONTACT,
+        payload: body,
+        onCallback
+    };
+}
+
+const uContactSuccess = (user, onCallback) => {
+    return {
+        type: RT.U_CONTACT_SUCCESS,
+        payload: user,
+        onCallback
+    };
+}
+
+const uContactFail = (error, onCallback) => {
+    return {
+        type: RT.U_CONTACT_FAIL,
+        payload: error,
+        onCallback
+    }
+}
+
+const dContact = (body, onCallback) => {
+    return {
+        type: RT.D_CONTACT,
+        payload: body,
+        onCallback
+    };
+}
+
+const dContactSuccess = (user, onCallback) => {
+    return {
+        type: RT.D_CONTACT_SUCCESS,
+        payload: user,
+        onCallback
+    };
+}
+
+const dContactFail = (error, onCallback) => {
+    return {
+        type: RT.D_CONTACT_FAIL,
+        payload: error,
+        onCallback
+    }
+}
+
 const CONTACT_ACTIONS = {
     fetchContact,
     fetchContactSuccess,
     fetchContactFail,
     cContact,
     cContactSuccess,
-    cContactFail
+    cContactFail,
+    uContact,
+    uContactSuccess,
+    uContactFail,
+    dContact,
+    dContactSuccess,
+    dContactFail
 }
 
 export default CONTACT_ACTIONS

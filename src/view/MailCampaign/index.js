@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+// import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { stateFromHTML } from 'draft-js-import-html'
-import { stateToHTML } from 'draft-js-export-html'
+// import { stateToHTML } from 'draft-js-export-html'
 import { Button, FormGroup, Label, Input, Col } from 'reactstrap'
 import { connect } from 'react-redux'
 import RA from '../../redux/actions';
@@ -96,6 +96,7 @@ class MailCampaign extends Component {
                     <Label children="" sm={2} />
                     <Col sm={10}>
                         {
+                            //eslint-disable-next-line
                             this.state.contentType == options[1]
                                 ? <MailEditor2 />
                                 : <Select options={listMailTemplate}/>

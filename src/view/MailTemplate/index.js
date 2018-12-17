@@ -4,7 +4,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import { Button, FormGroup, Label, Input, Col } from 'reactstrap'
 import { connect } from 'react-redux'
-import RA from '../../redux/actions';
+// import RA from '../../redux/actions';
 import { stateFromHTML } from 'draft-js-import-html'
 import { stateToHTML } from 'draft-js-export-html'
 import MailEditor2 from '../../components/MailEditor2'
