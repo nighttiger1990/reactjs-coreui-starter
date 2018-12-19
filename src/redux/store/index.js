@@ -17,7 +17,7 @@ const persistConfig = {
     timeout: 10000,
     key: 'root',
     storage: storage,
-    blacklist: [],
+    // blacklist: ['contact', 'contactGroup', 'campaign'],
     migrate: (state) => {
         console.log('Migration Running!', state)
         return Promise.resolve(state)

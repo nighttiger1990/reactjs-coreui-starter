@@ -54,7 +54,7 @@ class ContactCreate extends React.Component {
     render = () => {
         return (
             <div style={{ margin: 5 }}>
-                <h1 className="text-center">Gửi mail theo chiến dịch</h1>
+                <h1 className="text-center">Thêm mới thông tin contact</h1>
                 <FormGroup row>
                     <Label children="Họ và tên" md={2} for="fullName" />
                     <Col md={10} sm={12}>

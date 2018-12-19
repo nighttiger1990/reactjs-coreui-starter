@@ -8,6 +8,7 @@ import RA from '../actions'
 import RT from "../types";
 // eslint-disable-next-line
 import { of, from, NEVER, EMPTY } from "rxjs";
+import RC from "../../config";
 
 
 /**
@@ -22,12 +23,19 @@ const checkAuthEpics = (action$, state$) => {
         mergeMap(
             (action, idx) => {
                 // console.log('=====>Observable RUNNING<=====', action, idx)
-                let url = "http://42.115.221.35:9091/login"
-                let data = { username: "truongbl", passsword: "123" }
+                let url = RC.API_OAUTH
+                let userFromGG = action.payload
+                let data = { idToken: userFromGG.tokenId }
+                console.log(url, data)
                 return Axios.post(url, data)
                     .then(res => {
-                        if (res && res.data && res.data.status === 1) {
-                            return RA.setUserSuccess(res.data.data, action.onCallback)
+                        console.log(res)
+                        if (res && res.data && res.data.StatusCode >= 200 && res.data.StatusCode < 300) {
+                            let appToken = res.data.Data.Token
+                            let userInfo = { ...userFromGG, APP_TOKEN: appToken }
+                            //Setting default header cho Axios cho các request sau
+                            Axios.defaults.headers.common['Authorization'] = "Bearer " + appToken
+                            return RA.setUserSuccess(userInfo, action.onCallback)
                         } else {
                             return RA.setUserFail(res.data.message, action.onCallback)
                         }

@@ -24,7 +24,6 @@ const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
-
   loading = <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
   signOut = (e) => {
@@ -42,7 +41,7 @@ render() {
       <div className="app">
         <AppHeader fixed>
           <Suspense fallback={this.loading}>
-            <DefaultHeader onLogout={this.signOut} />
+            <DefaultHeader {...this.props} onLogout={this.signOut}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">

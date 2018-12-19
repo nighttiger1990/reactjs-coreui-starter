@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import configureStore from './redux/store';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
+import Axios from 'axios';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -57,7 +58,10 @@ class App extends Component {
          */
         let rootState = this.state.store.getState()
         console.log("======RehydrateCallback======", rootState)
-
+        let appToken = rootState && rootState.auth && rootState.auth.userInfo && rootState.auth.userInfo.APP_TOKEN ? rootState.auth.userInfo.APP_TOKEN : null
+        if(appToken){
+            Axios.defaults.headers.common['Authorization'] = "Bearer " + rootState.auth.userInfo.APP_TOKEN
+        }
     }
     render() {
         return (

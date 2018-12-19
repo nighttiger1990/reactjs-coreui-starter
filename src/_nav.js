@@ -19,13 +19,13 @@ export default {
         class: ''             // optional class names space delimited list for title item ex: "text-center"
       },
       {
-        name: 'Chiến dịch gửi mail',
-        url: '/mailcampaign',
+        name: 'Campaign List',
+        url: '/campaignlist',
         icon: 'icon-flag',
       },
       {
-        name: 'Mail Template',
-        url: '/mailtemplate',
+        name: 'Mail Template List',
+        url: '/mailtemplatelist',
         icon: 'icon-paper-plane',
       },
       {

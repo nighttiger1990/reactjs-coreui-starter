@@ -38,7 +38,7 @@ import XPagination from '../../components/XPagination';
 //     ] // A numeric array is also available. the purpose of above example is custom the text
 // };
 
-class ContactList extends React.Component {
+class MailTemplateList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -65,13 +65,7 @@ class ContactList extends React.Component {
 
         { dataField: 'stt', text: '', headerAlign: 'center', headerStyle: { width: 60 }, formatter: this.sttFormatter },
         { dataField: 'Id', text: 'User ID', sort: true, headerAlign: 'center', headerStyle: { width: 80 }, hidden: true },
-        { dataField: 'FullName', text: 'Fullname', headerAlign: 'center', headerStyle: { width: 250 } },
-        { dataField: 'Email', text: 'Email', headerAlign: 'center', headerStyle: { width: 250 } },
-        { dataField: 'Gender', text: 'Giới tính', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.genderFormatter, sort: true },
-        { dataField: 'Birthday', text: 'Ngày sinh', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.birthdayFormatter },
-        { dataField: 'PhoneNumber', text: 'Điện thoại', headerAlign: 'center' },
-        { dataField: 'Address', text: 'Địa chỉ', headerAlign: 'center' },
-        { dataField: 'National', text: 'Quốc gia', headerAlign: 'center' },
+        { dataField: 'Name', text: 'Tên mẫu mail', headerAlign: 'center', headerStyle: { width: "auto" } },
     ];
 
 
@@ -81,10 +75,10 @@ class ContactList extends React.Component {
     }];
 
     add = () => {
-        this.props.history.push('/contactcreate')
+        this.props.history.push('/mailTemplatecreate')
     }
     edit = (data) => {
-        this.props.history.push('/contactupdate', data)
+        this.props.history.push('/mailTemplateupdate', data)
     }
     remove = (row) => {
         this.setState({
@@ -106,12 +100,12 @@ class ContactList extends React.Component {
             isShowDelete: !this.state.isShowDelete
         })
     }
-    onContactDelete = () => {
+    onMailTemplateDelete = () => {
         let data = this.state.selectedRow
-        this.props.dispatch(RA.dContact(data, (e) => {
+        this.props.dispatch(RA.dMailTemplate(data, (e) => {
             if (!e.hasError) {
                 this.toggleModal()
-                this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+                this.props.dispatch(RA.fetchMailTemplate({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
             } else {
                 //Sai thì setting error
             }
@@ -126,22 +120,22 @@ class ContactList extends React.Component {
         this.setState({
             pageindex: page
         }, () => {
-            this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+            this.props.dispatch(RA.fetchMailTemplate({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
         })
     }
     componentDidMount = () => {
-        this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+        this.props.dispatch(RA.fetchMailTemplate({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
     }
 
     componentWillReceiveProps = (nextProps, nextContext) => {
-        if (nextProps.contactInfo) {
-            // let totalPage = ((nextProps.contacts.totalRecords || 0) / this.state.pagesize) + 1
-            let totalPage = Math.floor((nextProps.contactInfo.TotalRecords || 0) / this.state.pagesize) + (nextProps.contactInfo.TotalRecords % this.state.pagesize === 0 ? 0 : 1)
+        if (nextProps.mailTemplateInfo) {
+            // let totalPage = ((nextProps.mailTemplates.totalRecords || 0) / this.state.pagesize) + 1
+            let totalPage = Math.floor((nextProps.mailTemplateInfo.TotalRecords || 0) / this.state.pagesize) + (nextProps.mailTemplateInfo.TotalRecords % this.state.pagesize === 0 ? 0 : 1)
             this.setState({ totalPage: totalPage })
         }
     }
     render = () => {
-        const contacts = this.props.contactInfo && this.props.contactInfo.Data ? this.props.contactInfo.Data : []
+        const mailTemplates = this.props.mailTemplateInfo && this.props.mailTemplateInfo.Data ? this.props.mailTemplateInfo.Data : []
         const tableColumns = [...this.columns]
         tableColumns.push({ dataField: 'action', text: 'Action', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.actionFormatter })
         
@@ -150,15 +144,15 @@ class ContactList extends React.Component {
                 <Modal isOpen={this.state.isShowDelete} centered={true} toggle={this.toggleModal}>
                     <ModalHeader children={"Thông báo"} />
                     <ModalBody>
-                        <div>{"Bạn có chắc chắn muốn xóa contact này không?\n"}</div>
+                        <div>{"Bạn có chắc chắn muốn xóa mailTemplate này không?\n"}</div>
                         <div className="alert-danger">{"\n Không"}</div>
                     </ModalBody>
                     <ModalFooter >
-                        <Button title={"Xóa"} children={"Xóa"} color="primary" onClick={this.onContactDelete} />
+                        <Button title={"Xóa"} children={"Xóa"} color="primary" onClick={this.onMailTemplateDelete} />
                         <Button title={"Hủy"} children={"Hủy"} color="primary" onClick={this.toggleModal} />
                     </ModalFooter>
                 </Modal>
-                <h1 className="text-center">Danh sách Contact</h1>
+                <h1 className="text-center">Danh sách MailTemplate</h1>
 
                 <FormGroup row>
                     <Button title="Add" color="primary" className="ml-1" size="sm" onClick={this.add}><span className="fa fa-adn"></span></Button>
@@ -166,7 +160,7 @@ class ContactList extends React.Component {
                 <BTable
                     bootstrap4
                     keyField="Id"
-                    data={contacts}
+                    data={mailTemplates}
                     columns={tableColumns}
                     // loading={this.props.isLoading}
                     defaultSorted={this.defaultSorted}
@@ -187,10 +181,10 @@ class ContactList extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { ...state.contact }
+    return { ...state.mailTemplate }
 }
 
-export default connect(mapStateToProps)(ContactList)
+export default connect(mapStateToProps)(MailTemplateList)
 
 
 

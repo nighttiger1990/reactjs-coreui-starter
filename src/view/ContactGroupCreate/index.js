@@ -1,61 +1,69 @@
 import React from 'react'
 import { FormGroup, Label, Input, Col, Button } from 'reactstrap'
 import Select from 'react-select'
+import { connect } from 'react-redux'
+import RA from '../../redux/actions';
 
-const optionsGender = [
-    { value: 1, label: 'Nam' },
-    { value: 0, label: 'Nữ' },
-];
 class ContactGroupCreate extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            Name: "",
+            GroupDetail: []
+        }
     }
 
+    onSelectContact = (e) => {
+        this.setState({
+            GroupDetail: e
+        })
+    }
+
+    onCreateGroup = () => {
+        let data = {
+            Group: {
+                Name: this.state.Name
+            },
+            GroupDetail: this.state.GroupDetail.map(item => { return { ...item, ContactsId: item.Id } })
+        }
+        this.props.dispatch(RA.cContactGroup(data, this.onCreateGroupCallback))
+    }
+    onCreateGroupCallback = e => {
+        console.log(e)
+    }
+
+    onChange = e => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
     render = () => {
+        console.log("this.props", this.props)
+        let contacts = this.props.contacts
         return (
             <div style={{ margin: 5 }}>
-                <h1 className="text-center">Gửi mail theo chiến dịch</h1>
+                <h1 className="text-center">Thêm mới thông tin nhóm contact</h1>
                 <FormGroup row>
-                    <Label children="Họ và tên" md={2} for="fullName" />
+                    <Label children="Tên nhóm" md={2} for="Name" />
                     <Col md={10} sm={12}>
-                        <Input disabled={true} placeholder="Họ và tên" id="fullName" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label children="Email" md={2} for="email" />
-                    <Col md={10} sm={12}>
-                        <Input disabled={true} placeholder="Email" id="email" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label children="Ngày sinh" md={2} for="birthday" />
-                    <Col md={10} sm={12}>
-                        <Input disabled={true} placeholder="Ngày sinh" id="birthday" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label children="Địa chỉ" md={2} for="address" />
-                    <Col md={10} sm={12}>
-                        <Input disabled={true} placeholder="Địa chỉ" id="address" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label children="Quốc gia" md={2} for="national" />
-                    <Col md={10} sm={12}>
-                        <Input disabled={true} placeholder="Quốc gia" id="national" />
+                        <Input placeholder="Tên nhóm contact" id="Name" onChange={this.onChange} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Giới tính" sm={2} for="gender" />
                     <Col md={10} sm={12}>
-                        <Select id="idCampaign" options={optionsGender} />
+                        <Select id="idCampaign" options={contacts} isMulti={true}
+                            getOptionLabel={(item) => item.FullName}
+                            getOptionValue={(item) => item.Id}
+                            closeMenuOnSelect={false}
+                            onChange={this.onSelectContact}
+                        />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="" sm={2} />
                     <Col md={10} sm={12}>
-                        <Button children="Tạo contact" onClick={this.onSendEmail} />
+                        <Button children="Tạo contact group" onClick={this.onCreateGroup} color="primary" />
                     </Col>
                 </FormGroup>
             </div>
@@ -63,4 +71,9 @@ class ContactGroupCreate extends React.Component {
     }
 }
 
-export default ContactGroupCreate
+const mapStateToProps = state => {
+    let contacts = state.contact && state.contact.contacts && state.contact.contacts.Data ? state.contact.contacts.Data : [];
+    return { contacts }
+}
+
+export default connect(mapStateToProps)(ContactGroupCreate)

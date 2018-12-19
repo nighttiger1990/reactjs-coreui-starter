@@ -63,7 +63,7 @@ class XPagination extends React.Component {
                         <PaginationLink next={true} onClick={() => { this._onPageChange(this.state.totalPage) }} />
                     </PaginationItem>
                     <Label className="page-link" style={{ borderWidth: 0, marginLeft: 0, color: 'inherit' }} children="Go to:" />
-                    <Input type="number" min={1} max={this.state.totalPage} style={{ width: "auto", marginLeft: 2 }} value={this.state.gotoPage} onChange={this._onGotoPageChange} />
+                    <Input type="number" min={1} max={this.state.totalPage || 1} style={{ width: 80, marginLeft: 2 }} value={this.state.gotoPage} onChange={this._onGotoPageChange} />
                     <Label className="page-link" style={{ borderWidth: 0, marginLeft: 3, color: 'inherit' }} children={`/ ${this.state.totalPage}`} />
                     <PaginationItem style={{marginLeft: 3}}>
                         <Button color="primary" title="Go" children="Go" size="md" onClick={() => {this._onPageChange(this.state.gotoPage)}}/>

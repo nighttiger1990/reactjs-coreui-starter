@@ -4,6 +4,7 @@ import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGr
 import { connect } from 'react-redux'
 import RA from '../../redux/actions';
 import { GoogleLogin } from 'react-google-login'
+import RC from '../../config';
 class Login extends Component {
 
 	onLogin = () => {
@@ -21,18 +22,16 @@ class Login extends Component {
 
 	onLoginGGSuccess = (res) => {
 		console.log("GGLogin Success", res)
-		this.props.dispatch(RA.setUserSuccess(res))
+		this.props.dispatch(RA.checkAuth(res))
 	}
 
 	onLoginGGError = (res) => {
 		this.props.dispatch(RA.setUserFail(res))
 	}
 	shouldComponentUpdate = (nextProps, nextState) => {
-		console.log('nextProps', nextProps, nextState)
 		return true
 	}
 	render() {
-		console.log('render')
 		if (this.props.userInfo) {
 			return <Redirect to="/dashboard" />
 		}
@@ -84,7 +83,7 @@ class Login extends Component {
 												<Col>
 													<GoogleLogin
 														buttonText="Sign in with Google account"
-														clientId="838881038701-vjva1af9tpjgism6lau1mhcvkoro0jeu.apps.googleusercontent.com"
+														clientId={RC.GG_CLIENT_ID}
 														onSuccess={this.onLoginGGSuccess}
 														onFailure={this.onLoginGGError}
 														className="w-100 mt-3"

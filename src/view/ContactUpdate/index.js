@@ -10,8 +10,7 @@ const optionsGender = [
 class ContactUpdate extends React.Component {
     constructor(props) {
         super(props)
-        console.log("Khởi tại nè", this.props)
-        let newState = {...this.props.location.state}
+        let newState = { ...this.props.location.state }
         this.state = newState
     }
 
@@ -49,39 +48,45 @@ class ContactUpdate extends React.Component {
             <div style={{ margin: 5 }}>
                 <h1 className="text-center">Gửi mail theo chiến dịch</h1>
                 <FormGroup row>
+                    <Label children="Họ và tên" md={2} for="Id" />
+                    <Col md={10} sm={12}>
+                        <Input placeholder="Họ và tên" id="Id" value={this.state.Id || ""} readOnly={true} />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
                     <Label children="Họ và tên" md={2} for="FullName" />
                     <Col md={10} sm={12}>
-                        <Input placeholder="Họ và tên" id="FullName" onChange={this.onChange} value={this.state.FullName}/>
+                        <Input placeholder="Họ và tên" id="FullName" onChange={this.onChange} value={this.state.FullName || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Phone" md={2} for="PhoneNumber" />
                     <Col md={10} sm={12}>
-                        <Input placeholder="Phone number" id="PhoneNumber" onChange={this.onChange} value={this.state.PhoneNumber}/>
+                        <Input placeholder="Phone number" id="PhoneNumber" onChange={this.onChange} value={this.state.PhoneNumber || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Email" md={2} for="Email" />
                     <Col md={10} sm={12}>
-                        <Input type="email" placeholder="Email" id="Email" onChange={this.onChange} value={this.state.Email}/>
+                        <Input type="email" placeholder="Email" id="Email" onChange={this.onChange} value={this.state.Email || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Ngày sinh" md={2} for="Birthday" />
                     <Col md={10} sm={12}>
-                        <Input placeholder="Ngày sinh" id="Birthday" onChange={this.onChange} value={this.state.Birthday}/>
+                        <Input placeholder="Ngày sinh" id="Birthday" onChange={this.onChange} value={this.state.Birthday || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Địa chỉ" md={2} for="Address" />
                     <Col md={10} sm={12}>
-                        <Input placeholder="Địa chỉ" id="Address" onChange={this.onChange} value={this.state.Address}/>
+                        <Input placeholder="Địa chỉ" id="Address" onChange={this.onChange} value={this.state.Address || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
                     <Label children="Quốc gia" md={2} for="National" />
                     <Col md={10} sm={12}>
-                        <Input placeholder="Quốc gia" id="National" onChange={this.onChange} value={this.state.National}/>
+                        <Input placeholder="Quốc gia" id="National" onChange={this.onChange} value={this.state.National || ""} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -104,7 +109,7 @@ class ContactUpdate extends React.Component {
                     <Label children="" sm={2} />
                     <Col md={10} sm={12}>
                         <Button onClick={this.onContactUpdate} color="primary">
-                            <span className={`fa ${this.props.contacts && this.props.contacts.isLoading? "fa-spinner fa-spin" : "fa-save"}`}></span> Update contact
+                            <span className={`fa ${this.props.contacts && this.props.contacts.isLoading ? "fa-spinner fa-spin" : "fa-save"}`}></span> Update contact
                         </Button>
                     </Col>
                 </FormGroup>

@@ -38,7 +38,7 @@ import XPagination from '../../components/XPagination';
 //     ] // A numeric array is also available. the purpose of above example is custom the text
 // };
 
-class ContactList extends React.Component {
+class CampaignList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -65,13 +65,9 @@ class ContactList extends React.Component {
 
         { dataField: 'stt', text: '', headerAlign: 'center', headerStyle: { width: 60 }, formatter: this.sttFormatter },
         { dataField: 'Id', text: 'User ID', sort: true, headerAlign: 'center', headerStyle: { width: 80 }, hidden: true },
-        { dataField: 'FullName', text: 'Fullname', headerAlign: 'center', headerStyle: { width: 250 } },
-        { dataField: 'Email', text: 'Email', headerAlign: 'center', headerStyle: { width: 250 } },
-        { dataField: 'Gender', text: 'Giới tính', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.genderFormatter, sort: true },
-        { dataField: 'Birthday', text: 'Ngày sinh', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.birthdayFormatter },
-        { dataField: 'PhoneNumber', text: 'Điện thoại', headerAlign: 'center' },
-        { dataField: 'Address', text: 'Địa chỉ', headerAlign: 'center' },
-        { dataField: 'National', text: 'Quốc gia', headerAlign: 'center' },
+        { dataField: 'Name', text: 'Tên chiến dịch', headerAlign: 'center', headerStyle: { width: "auto" } },
+        { dataField: 'SubjectMail', text: 'Tên mail', headerAlign: 'center', headerStyle: { width: 250 } },
+        { dataField: 'Description', text: 'Miêu tả', headerAlign: 'center', headerStyle: { width: 250 } },
     ];
 
 
@@ -81,10 +77,10 @@ class ContactList extends React.Component {
     }];
 
     add = () => {
-        this.props.history.push('/contactcreate')
+        this.props.history.push('/campaigncreate')
     }
     edit = (data) => {
-        this.props.history.push('/contactupdate', data)
+        this.props.history.push('/campaignupdate', data)
     }
     remove = (row) => {
         this.setState({
@@ -94,7 +90,7 @@ class ContactList extends React.Component {
     }
     actionFormatter = (cell, row) => {
         return (
-            <div className="text-center">
+            <div>
                 <Button title="Edit" color="primary" className="ml-1" size="sm" onClick={() => this.edit(row)}><span className="fa fa-edit"></span></Button>
                 <Button title="Remove" color="danger" className="ml-1" size="sm" onClick={() => this.remove(row)}><span className="fa fa-trash"></span></Button>
             </div>
@@ -106,14 +102,16 @@ class ContactList extends React.Component {
             isShowDelete: !this.state.isShowDelete
         })
     }
-    onContactDelete = () => {
+    onCampaignDelete = () => {
         let data = this.state.selectedRow
-        this.props.dispatch(RA.dContact(data, (e) => {
+        this.props.dispatch(RA.dCampaign(data, (e) => {
             if (!e.hasError) {
                 this.toggleModal()
-                this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+                this.props.dispatch(RA.fetchCampaign({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
             } else {
-                //Sai thì setting error
+                this.setState({
+                    deleteError: typeof e
+                })
             }
         }))
     }
@@ -126,25 +124,24 @@ class ContactList extends React.Component {
         this.setState({
             pageindex: page
         }, () => {
-            this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+            this.props.dispatch(RA.fetchCampaign({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
         })
     }
     componentDidMount = () => {
-        this.props.dispatch(RA.fetchContact({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
+        this.props.dispatch(RA.fetchCampaign({ pageindex: this.state.pageindex, pagesize: this.state.pagesize }))
     }
 
     componentWillReceiveProps = (nextProps, nextContext) => {
-        if (nextProps.contactInfo) {
+        if (nextProps.campaignInfo) {
             // let totalPage = ((nextProps.contacts.totalRecords || 0) / this.state.pagesize) + 1
-            let totalPage = Math.floor((nextProps.contactInfo.TotalRecords || 0) / this.state.pagesize) + (nextProps.contactInfo.TotalRecords % this.state.pagesize === 0 ? 0 : 1)
+            let totalPage = Math.floor((nextProps.campaignInfo.TotalRecords || 0) / this.state.pagesize) + (nextProps.campaignInfo.TotalRecords % this.state.pagesize === 0 ? 0 : 1)
             this.setState({ totalPage: totalPage })
         }
     }
     render = () => {
-        const contacts = this.props.contactInfo && this.props.contactInfo.Data ? this.props.contactInfo.Data : []
+        const campaigns = this.props.campaignInfo && this.props.campaignInfo.Data ? this.props.campaignInfo.Data : []
         const tableColumns = [...this.columns]
         tableColumns.push({ dataField: 'action', text: 'Action', headerAlign: 'center', headerStyle: { width: 120 }, formatter: this.actionFormatter })
-        
         return (
             <div style={{ margin: 5 }}>
                 <Modal isOpen={this.state.isShowDelete} centered={true} toggle={this.toggleModal}>
@@ -154,11 +151,11 @@ class ContactList extends React.Component {
                         <div className="alert-danger">{"\n Không"}</div>
                     </ModalBody>
                     <ModalFooter >
-                        <Button title={"Xóa"} children={"Xóa"} color="primary" onClick={this.onContactDelete} />
+                        <Button title={"Xóa"} children={"Xóa"} color="primary" onClick={this.onCampaignDelete} />
                         <Button title={"Hủy"} children={"Hủy"} color="primary" onClick={this.toggleModal} />
                     </ModalFooter>
                 </Modal>
-                <h1 className="text-center">Danh sách Contact</h1>
+                <h1 className="text-center">Danh sách Campaign</h1>
 
                 <FormGroup row>
                     <Button title="Add" color="primary" className="ml-1" size="sm" onClick={this.add}><span className="fa fa-adn"></span></Button>
@@ -166,9 +163,9 @@ class ContactList extends React.Component {
                 <BTable
                     bootstrap4
                     keyField="Id"
-                    data={contacts}
+                    data={campaigns}
                     columns={tableColumns}
-                    // loading={this.props.isLoading}
+                    loading={true}
                     defaultSorted={this.defaultSorted}
                     // selectRow={{ mode: 'checkbox', clickToSelect: true }}
                     defaultSortDirection="asc"
@@ -176,7 +173,6 @@ class ContactList extends React.Component {
                     hover={true}
                     condensed={true}
                     noDataIndication="Không tìm thấy dữ liệu nào"
-                    // overlay={() => () => <span className="fa fa-spinner fa-spin" />}
                 // pagination={paginationFactory(pageOptions)}
                 />
                 {this.props.isLoading ? <span className="fa fa-spinner fa-spin" /> : null}
@@ -187,10 +183,10 @@ class ContactList extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { ...state.contact }
+    return { ...state.campaign }
 }
 
-export default connect(mapStateToProps)(ContactList)
+export default connect(mapStateToProps)(CampaignList)
 
 
 

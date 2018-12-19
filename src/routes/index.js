@@ -7,8 +7,11 @@ const MailCampaign = React.lazy(() => import('../view/MailCampaign'))
 const MailSender = React.lazy(() => import('../view/MailSender'))
 const ContactList = React.lazy(() => import('../view/ContactList'))
 const ContactCreate = React.lazy(() => import('../view/ContactCreate'))
-const ContactUpdate = React.lazy(()=>import('../view/ContactUpdate'))
+const ContactUpdate = React.lazy(() => import('../view/ContactUpdate'))
+const ContactGroupList = React.lazy(() => import('../view/ContactGroupList'))
 const ContactGroupCreate = React.lazy(() => import('../view/ContactGroupCreate'))
+const CampaignList = React.lazy(() => import('../view/CampaignList'))
+const MailTemplateList = React.lazy(() => import('../view/MailTemplateList'))
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
@@ -19,7 +22,10 @@ const routes = [
   { path: '/contactlist', name: "Contact list", component: ContactList },
   { path: '/contactcreate', name: "Contact create", component: ContactCreate },
   { path: '/contactupdate', name: "Contact update", component: ContactUpdate },
+  { path: '/contactgrouplist', name: "Contact group list", component: ContactGroupList },
   { path: '/contactgroupcreate', name: "Contact group create", component: ContactGroupCreate },
+  { path: '/campaignlist', name: "Campaign list", component: CampaignList },
+  { path: '/mailtemplatelist', name: "Mail template list", component: MailTemplateList },
 ];
 
 export default routes;
