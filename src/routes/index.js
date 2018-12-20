@@ -11,6 +11,7 @@ const ContactUpdate = React.lazy(() => import('../view/ContactUpdate'))
 const ContactGroupList = React.lazy(() => import('../view/ContactGroupList'))
 const ContactGroupCreate = React.lazy(() => import('../view/ContactGroupCreate'))
 const CampaignList = React.lazy(() => import('../view/CampaignList'))
+const CampaignCreate = React.lazy(() => import('../view/CampaignCreate'))
 const MailTemplateList = React.lazy(() => import('../view/MailTemplateList'))
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
   { path: '/contactgrouplist', name: "Contact group list", component: ContactGroupList },
   { path: '/contactgroupcreate', name: "Contact group create", component: ContactGroupCreate },
   { path: '/campaignlist', name: "Campaign list", component: CampaignList },
+  { path: '/campaigncreate', name: "Campaign create", component: CampaignCreate },
   { path: '/mailtemplatelist', name: "Mail template list", component: MailTemplateList },
 ];
 
